@@ -48,6 +48,13 @@ namespace csharp_webserver.Controllers
                    .buildResponse();
         }
 
+        // TODO: fix client request value not mapped
+        public HttpResponseMessage Post(string method, [FromBody] string value)
+        {
+
+            return new HttpRequestMessage().CreateResponse("BLA");
+        }
+
         // PUT: api/ChatMessage/5
         public void Put(int id, [FromBody]string value)
         {

@@ -9,7 +9,7 @@
     <span id="sendingStatus" runat="server"></span>
     <hr />
     -->
-    
+
     <table style="width: 100%">
         <tr>
 
@@ -23,6 +23,9 @@
 
             <td class="topleft bordered">
                 <div class="preRow">
+                    <input type="file" id="fileSelector" name="fileSelector" class="" title="Datei zum Upload auswählen" />
+                    <div ID="sendFileButton" onclick="doMultipartUpload()">Datei senden</div>
+
                     <asp:TextBox ID="messageField" onkeypress="messageWritten(event);" autocomplete="off" style="width: 800px;" placeholder="Nachricht eingeben" runat="server"></asp:TextBox> 
                     <asp:Button ID="sendButton" OnClientClick="clearMessageField()" Text="Senden" runat="server" OnClick="sendMessage" />
                 </div>
@@ -36,6 +39,9 @@
 
 
     <style>
+        .leftControl {
+            float:          left;   
+        }
         .preRow {
             padding:        8px;
             width:          100%;
@@ -172,6 +178,46 @@
 
         fillMessageField();
         focus();
+
+        /* reference see:  
+                https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch 
+        
+        TODO: post request body is null at server; debugging required */
+        function doMultipartUpload() {
+
+            const field = document.getElementById("MainContent_newRequestUrl").value;
+            const reader = new FileReader();
+            var fileList = document.getElementById("fileSelector").files;
+            Array.from(fileList).forEach(file => {
+                console.log(file);
+                reader.readAsDataURL(file, 'UTF-8');
+                reader.onload = readerEvent => {
+                    var content = readerEvent.target.result;
+                    console.log(content);
+
+                    const uploadObj = JSON.stringify({fileContent: content});
+                    console.log(uploadObj);
+
+                    const response = fetch(`${field}api/Chat?method=file-upstream`, {
+                        method: 'POST',
+                        mode: 'cors',
+                        cache: 'no-cache',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        redirect: 'follow',
+                        referrerPolicy: 'no-referrer',
+                        body: uploadObj
+                    }).catch(err => {
+
+                        console.error("File Upload Stream broken. Retry not allowed by ChatApplication.");
+                    });
+                }
+            });
+
+            return false;
+        }
 
     </script>
 
