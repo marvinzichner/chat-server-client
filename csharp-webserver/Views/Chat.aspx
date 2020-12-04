@@ -9,7 +9,12 @@
     <span id="sendingStatus" runat="server"></span>
     <hr />
     -->
-
+    <br />
+    <b>Deine öffentliche Adresse:</b> <span id="ipAdressExternal" runat="server">n/a</span>
+    <br /><br />
+    <div class="bigError" id="inputError" visible="false" runat="server">
+        Illeagal
+    </div>
     <table style="width: 100%">
         <tr>
 
@@ -23,9 +28,14 @@
 
             <td class="topleft bordered">
                 <div class="preRow">
+                    <!--
                     <input type="file" id="fileSelector" name="fileSelector" class="" title="Datei zum Upload auswählen" />
                     <div ID="sendFileButton" onclick="doMultipartUpload()">Datei senden</div>
+                     -->
 
+                    Username: <asp:TextBox ID="usernameField" autocomplete="off" placeholder="Benutzernamen eingeben" runat="server"></asp:TextBox> 
+
+                    Message:
                     <asp:TextBox ID="messageField" onkeypress="messageWritten(event);" autocomplete="off" style="width: 800px;" placeholder="Nachricht eingeben" runat="server"></asp:TextBox> 
                     <asp:Button ID="sendButton" OnClientClick="clearMessageField()" Text="Senden" runat="server" OnClick="sendMessage" />
                 </div>

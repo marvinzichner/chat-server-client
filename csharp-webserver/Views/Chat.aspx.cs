@@ -40,11 +40,28 @@ namespace csharp_webserver.Views
             {
                 Session[Property.ENDPOINT_ADRESS_SESSION] = storedEndpointUrl;
             }
-            
+
+            usernameField.Text =
+                Global.messageStoreService.getClientName();
+            ipAdressExternal.InnerText =
+                Global.publicHostAdressService.getIpAdress();
+
+            checkErrorsSubmitted();
+
+        }
+
+        protected void checkErrorsSubmitted()
+        {
+
+          // TO-DO: IMPLEMENT
         }
 
         protected void sendMessage(object sender, EventArgs e)
         {
+
+            Global.messageStoreService
+                .setClientName(usernameField.Text);
+
             if (targetAdress == "")
                 targetAdress = newRequestUrl.Text;
 
@@ -79,7 +96,7 @@ namespace csharp_webserver.Views
 
         private void displayMessages()
         {
-
+            
             historyTable.Rows.Clear();
             chatList.Rows.Clear();
 
@@ -94,6 +111,7 @@ namespace csharp_webserver.Views
                 button.Attributes.Add("data", origin);
                 button.Attributes.Add("class", "hideButton");
                 button.Click += new EventHandler(selectedListClient);
+
                 button.Text = origin;
 
                 cell.Controls.Add(button);
@@ -120,13 +138,13 @@ namespace csharp_webserver.Views
                     row.Cells.Add(cell);
                     
                     cell = new HtmlTableCell();
-                    if (message.getDelivered()) { 
-                        cell.InnerText = message.getContent();
+                    if (message.getDelivered()) {
+                        cell.InnerHtml = $"<span style=\"font-size: 9pt; color: gray;\">{message.getCreatedTimestamp()}</span></i> <br> {message.getContent()}";
                         cell.Attributes.Add("style", "width: 40%; text-align: right;");
                     } 
                     else
                     {
-                        cell.InnerHtml = $"{message.getContent()} <br><i>Diese Nachricht konnte nicht zugestellt werden.</i>";
+                        cell.InnerHtml = $"<span style=\"font-size: 9pt; color: gray;\">{message.getCreatedTimestamp()} - Nachricht konnte nicht zugestellt werden</span></i> <br> {message.getContent()}";
                         cell.Attributes.Add("style", "width: 40%; text-align: right; color: gray;");
                     }
                     row.Cells.Add(cell);
@@ -147,7 +165,7 @@ namespace csharp_webserver.Views
 
                     cell = new HtmlTableCell();
                     cell.Attributes.Add("style", "width: 40%");
-                    cell.InnerText = message.getContent();
+                    cell.InnerHtml = $"<span style=\"font-size: 9pt; color: gray;\">{message.getCreatedTimestamp()}</span></i> <br> {message.getContent()}";
                     row.Cells.Add(cell);
 
                     cell = new HtmlTableCell();

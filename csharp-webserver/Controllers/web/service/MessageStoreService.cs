@@ -57,7 +57,9 @@ namespace csharp_webserver
 
             List<string> origins = new List<string>();
 
-            this.messages.ForEach(message =>
+            this.messages
+                .FindAll(message => message.delivered)
+                .ForEach(message =>
             {
                 if (origins.IndexOf(message.getOrigin()) == -1) {
 

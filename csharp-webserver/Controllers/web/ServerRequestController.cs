@@ -54,11 +54,11 @@ namespace csharp_webserver
 
         public HttpStatusCode sendMessage(string recipient, string msg)
         {
-
+         
             Message message = Message.builder()
                 .setContent(msg)
-                .setFromHost($"http://{HttpContext.Current.Request.Url.Host}:{HttpContext.Current.Request.Url.Port}")
-                .setOrigin($"{HttpContext.Current.Request.Url.Host} ({HttpContext.Current.Request.Url.Port})");
+                .setFromHost($"{recipient}")
+                .setOrigin($"{Global.messageStoreService.getClientName()}");
 
             var json = JsonConvert.SerializeObject(message);
             HttpStatusCode response = httpClientExecutionService

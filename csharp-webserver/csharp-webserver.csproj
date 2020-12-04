@@ -222,6 +222,7 @@
     <Compile Include="Controllers\web\response\ChatControllerResponseBuilder.cs" />
     <Compile Include="Controllers\web\response\RefreshControllerResponseBuilder.cs" />
     <Compile Include="Controllers\web\service\LoggerService.cs" />
+    <Compile Include="Controllers\web\service\PublicHostAdressService.cs" />
     <Compile Include="Models\logging\LogLevel.cs" />
     <Compile Include="Models\logging\ServerLogEntry.cs" />
     <Compile Include="Models\web\HttpRequestType.cs" />

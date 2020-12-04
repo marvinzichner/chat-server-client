@@ -13,6 +13,12 @@ namespace csharp_webserver
         public string fromHost;
         public bool mySelf;
         public bool delivered;
+        private DateTime created;
+
+        public Message()
+        {
+            created = DateTime.Now;
+        }
 
         public static Message builder() { return new Message(); }
         public Message setContent(string s) { this.content = s; return this; }
@@ -26,6 +32,11 @@ namespace csharp_webserver
         public bool getDelivered() { return delivered; }
 
         public bool getMySelf() { return mySelf; }
+
+        public String getCreatedTimestamp()
+        {
+            return $"{created.ToShortDateString()} {created.ToShortTimeString()}";
+        }
 
     }
 }

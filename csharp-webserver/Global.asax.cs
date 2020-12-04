@@ -19,6 +19,9 @@ namespace csharp_webserver
         public static LoggerService logger
             = new LoggerService();
 
+        public static PublicHostAdressService publicHostAdressService =
+            new PublicHostAdressService();
+
         void Application_Start(object sender, EventArgs e)
         {
             // Code, der beim Anwendungsstart ausgeführt wird
@@ -27,5 +30,15 @@ namespace csharp_webserver
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception lastError = Server.GetLastError();
+            if (lastError is HttpRequestValidationException)
+            {
+                Response.Redirect("~/Views/Chat.aspx?inputError=true");
+            }
+        }
+
     }
 }
